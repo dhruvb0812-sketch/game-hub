@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Premium Games Arena | Chess, Sudoku & More</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="gradient-sphere"></div>
+        <div class="gradient-sphere2"></div>
+        <div class="gradient-sphere3"></div>
+    </div>
+
+    <!-- Particle Canvas -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="glass-nav">
+        <div class="nav-container">
+            <div class="logo" data-game="dashboard">
+                <i class="fas fa-crown"></i>
+                <span>GameArena<span class="premium">Pro</span></span>
+            </div>
+            <div class="menu-icon" id="menuIcon">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#" data-game="dashboard" class="active"><i class="fas fa-home"></i> <span>Dashboard</span></a></li>
+                <li><a href="#" data-game="chess"><i class="fas fa-chess-king"></i> <span>Chess</span></a></li>
+                <li><a href="#" data-game="sudoku"><i class="fas fa-th"></i> <span>Sudoku</span></a></li>
+                <li><a href="#" data-game="memory"><i class="fas fa-brain"></i> <span>Memory</span></a></li>
+                <li><a href="#" data-game="tictactoe"><i class="fas fa-gripfire"></i> <span>Tic-Tac-Toe</span></a></li>
+                <li><a href="#" data-game="snake"><i class="fas fa-snake"></i> <span>Snake</span></a></li>
+            </ul>
+            <div class="user-section" id="userSection" style="display: none;">
+                <div class="user-avatar" id="userAvatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <span id="usernameDisplay"></span>
+                <div class="user-menu">
+                    <button id="logoutBtn" class="logout-btn"><i class="fas fa-sign-out-alt"></i></button>
+                </div>
+            </div>
+            <div class="auth-buttons" id="authButtons">
+                <button class="btn-outline" id="loginBtn">Login</button>
+                <button class="btn-primary" id="signupBtn">Sign Up</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#" data-game="dashboard"><i class="fas fa-home"></i> Dashboard</a>
+        <a href="#" data-game="chess"><i class="fas fa-chess-king"></i> Chess</a>
+        <a href="#" data-game="sudoku"><i class="fas fa-th"></i> Sudoku</a>
+        <a href="#" data-game="memory"><i class="fas fa-brain"></i> Memory</a>
+        <a href="#" data-game="tictactoe"><i class="fas fa-gripfire"></i> Tic-Tac-Toe</a>
+        <a href="#" data-game="snake"><i class="fas fa-snake"></i> Snake</a>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Auth Modals -->
+        <div id="loginModal" class="modal">
+            <div class="modal-content glass-card">
+                <span class="close">&times;</span>
+                <h2><i class="fas fa-sign-in-alt"></i> Welcome Back</h2>
+                <form id="loginForm">
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" placeholder="Email" required id="loginEmail">
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="Password" required id="loginPassword">
+                    </div>
+                    <button type="submit" class="btn-primary full-width">Login</button>
+                    <p class="auth-switch">Don't have an account? <a href="#" id="switchToSignup">Sign Up</a></p>
+                </form>
+            </div>
+        </div>
+
+        <div id="signupModal" class="modal">
+            <div class="modal-content glass-card">
+                <span class="close">&times;</span>
+                <h2><i class="fas fa-user-plus"></i> Create Account</h2>
+                <form id="signupForm">
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" placeholder="Username" required id="signupUsername">
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" placeholder="Email" required id="signupEmail">
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="Password (min 6 characters)" required id="signupPassword">
+                    </div>
+                    <button type="submit" class="btn-primary full-width">Create Account</button>
+                    <p class="auth-switch">Already have an account? <a href="#" id="switchToLogin">Login</a></p>
+                </form>
+            </div>
+        </div>
+
+        <!-- Dashboard -->
+        <div id="dashboard" class="game-container active">
+            <div class="welcome-section">
+                <h1>Welcome back, <span id="welcomeName">Guest</span>!</h1>
+                <p>Ready to challenge yourself today?</p>
+            </div>
+            <div class="stats-grid">
+                <div class="glass-card stat-card">
+                    <i class="fas fa-gamepad"></i>
+                    <h3 id="totalGames">0</h3>
+                    <p>Games Played</p>
+                </div>
+                <div class="glass-card stat-card">
+                    <i class="fas fa-trophy"></i>
+                    <h3 id="totalWins">0</h3>
+                    <p>Wins</p>
+                </div>
+                <div class="glass-card stat-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3 id="winRate">0%</h3>
+                    <p>Win Rate</p>
+                </div>
+                <div class="glass-card stat-card">
+                    <i class="fas fa-fire"></i>
+                    <h3 id="streak">0</h3>
+                    <p>Day Streak</p>
+                </div>
+            </div>
+            <div class="featured-games">
+                <h2><i class="fas fa-star"></i> Featured Games</h2>
+                <div class="game-cards">
+                    <div class="game-card" data-game="chess">
+                        <i class="fas fa-chess-king"></i>
+                        <h3>Chess Master</h3>
+                        <p>Play vs AI or challenge friends</p>
+                        <div class="game-card-badge">Popular</div>
+                    </div>
+                    <div class="game-card" data-game="sudoku">
+                        <i class="fas fa-th"></i>
+                        <h3>Sudoku</h3>
+                        <p>4 difficulty levels</p>
+                        <div class="game-card-badge">Brain Training</div>
+                    </div>
+                    <div class="game-card" data-game="memory">
+                        <i class="fas fa-brain"></i>
+                        <h3>Memory Match</h3>
+                        <p>Test your memory power</p>
+                    </div>
+                    <div class="game-card" data-game="tictactoe">
+                        <i class="fas fa-gripfire"></i>
+                        <h3>Tic-Tac-Toe</h3>
+                        <p>Classic X's and O's</p>
+                    </div>
+                    <div class="game-card" data-game="snake">
+                        <i class="fas fa-snake"></i>
+                        <h3>Snake</h3>
+                        <p>Classic arcade game</p>
+                    </div>
+                </div>
+            </div>
+            <div class="leaderboard-section">
+                <h2><i class="fas fa-list-ol"></i> Top Players</h2>
+                <div class="leaderboard" id="leaderboard">
+                    <div class="leaderboard-item">
+                        <span class="rank">1</span>
+                        <span class="name">Guest Player</span>
+                        <span class="score">0 pts</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chess Game -->
+        <div id="chess" class="game-container">
+            <div class="chess-wrapper glass-card">
+                <div class="chess-header">
+                    <h2><i class="fas fa-chess-king"></i> Chess Master</h2>
+                    <div class="chess-controls">
+                        <button id="vsAIBtn" class="btn-primary active">vs AI</button>
+                        <button id="createRoomBtn" class="btn-outline">Create Room</button>
+                        <div class="room-controls" style="display: none;">
+                            <input type="text" id="roomIdInput" placeholder="Enter Room ID">
+                            <button id="joinRoomBtn" class="btn-outline">Join</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="game-content">
+                    <div class="chess-board" id="chessboard"></div>
+                    <div class="chess-sidebar">
+                        <div id="chessStatus" class="game-status">
+                            <i class="fas fa-circle-info"></i>
+                            <span>White's turn</span>
+                        </div>
+                        <div class="move-history">
+                            <h3>Move History</h3>
+                            <div id="moveHistoryList"></div>
+                        </div>
+                        <button id="resetChess" class="btn-outline full-width">Reset Game</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sudoku Game -->
+        <div id="sudoku" class="game-container">
+            <div class="sudoku-wrapper glass-card">
+                <h2><i class="fas fa-th"></i> Sudoku</h2>
+                <div class="difficulty-selector">
+                    <button class="difficulty-btn" data-diff="easy">Easy</button>
+                    <button class="difficulty-btn" data-diff="medium">Medium</button>
+                    <button class="difficulty-btn" data-diff="hard">Hard</button>
+                    <button class="difficulty-btn" data-diff="expert">Expert</button>
+                </div>
+                <div class="sudoku-board" id="sudoku-board"></div>
+                <div class="sudoku-controls">
+                    <button id="checkSudoku" class="btn-primary"><i class="fas fa-check"></i> Check</button>
+                    <button id="hintSudoku" class="btn-outline"><i class="fas fa-lightbulb"></i> Hint</button>
+                    <button id="resetSudoku" class="btn-outline"><i class="fas fa-undo"></i> Reset</button>
+                    <button id="newSudoku" class="btn-outline"><i class="fas fa-plus"></i> New Game</button>
+                </div>
+                <div id="sudokuStatus" class="game-status"></div>
+            </div>
+        </div>
+
+        <!-- Memory Game -->
+        <div id="memory" class="game-container">
+            <div class="memory-wrapper glass-card">
+                <h2><i class="fas fa-brain"></i> Memory Match</h2>
+                <div class="memory-stats">
+                    <div class="stat-box">
+                        <i class="fas fa-shoe-prints"></i>
+                        <span>Moves: <strong id="moves">0</strong></span>
+                    </div>
+                    <div class="stat-box">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Matches: <strong id="matches">0</strong></span>
+                    </div>
+                    <div class="stat-box">
+                        <i class="fas fa-hourglass-half"></i>
+                        <span>Time: <strong id="memoryTime">00:00</strong></span>
+                    </div>
+                </div>
+                <div class="memory-grid" id="memory-grid"></div>
+                <button id="resetMemory" class="btn-primary"><i class="fas fa-play"></i> New Game</button>
+            </div>
+        </div>
+
+        <!-- Tic Tac Toe -->
+        <div id="tictactoe" class="game-container">
+            <div class="ttt-wrapper glass-card">
+                <h2><i class="fas fa-gripfire"></i> Tic-Tac-Toe</h2>
+                <div class="ttt-mode">
+                    <button id="tttVsHuman" class="btn-outline active">2 Player</button>
+                    <button id="tttVsAI" class="btn-outline">vs AI</button>
+                </div>
+                <div class="ttt-board" id="ttt-board"></div>
+                <div id="tttStatus" class="game-status"></div>
+                <button id="resetTTT" class="btn-primary"><i class="fas fa-redo"></i> New Game</button>
+            </div>
+        </div>
+
+        <!-- Snake Game -->
+        <div id="snake" class="game-container">
+            <div class="snake-wrapper glass-card">
+                <h2><i class="fas fa-snake"></i> Snake</h2>
+                <div class="snake-stats">
+                    <div class="stat-box">
+                        <i class="fas fa-apple-alt"></i>
+                        <span>Score: <strong id="snakeScore">0</strong></span>
+                    </div>
+                    <div class="stat-box">
+                        <i class="fas fa-chart-line"></i>
+                        <span>High Score: <strong id="snakeHighScore">0</strong></span>
+                    </div>
+                </div>
+                <canvas id="snakeCanvas" width="400" height="400"></canvas>
+                <div class="snake-controls">
+                    <button id="snakeStart" class="btn-primary"><i class="fas fa-play"></i> Start Game</button>
+                    <button id="snakePause" class="btn-outline"><i class="fas fa-pause"></i> Pause</button>
+                </div>
+                <div class="snake-direction">
+                    <button class="dir-btn" data-dir="UP"><i class="fas fa-arrow-up"></i></button>
+                    <button class="dir-btn" data-dir="LEFT"><i class="fas fa-arrow-left"></i></button>
+                    <button class="dir-btn" data-dir="DOWN"><i class="fas fa-arrow-down"></i></button>
+                    <button class="dir-btn" data-dir="RIGHT"><i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chess.js@0.10.3/chess.min.js"></script>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/socket.js"></script>
+    <script src="js/chess.js"></script>
+    <script src="js/sudoku.js"></script>
+    <script src="js/memory.js"></script>
+    <script src="js/tictactoe.js"></script>
+    <script src="js/snake.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
