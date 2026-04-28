@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose');  // ← YEH LINE MISSING THI!
 
 let cached = global.mongoose;
 
@@ -15,9 +15,11 @@ async function connectDB() {
     const MONGODB_URI = process.env.MONGODB_URI;
     
     if (!MONGODB_URI) {
-      throw new Error('MONGODB_URI is not defined in environment variables');
+      throw new Error('❌ MONGODB_URI is not defined in environment variables');
     }
 
+    console.log('🔄 Connecting to MongoDB...');
+    
     const opts = {
       bufferCommands: false,
       maxPoolSize: 10,
@@ -29,7 +31,7 @@ async function connectDB() {
       console.log('✅ MongoDB connected successfully');
       return mongoose;
     }).catch((err) => {
-      console.error('❌ MongoDB connection error:', err);
+      console.error('❌ MongoDB connection error:', err.message);
       throw err;
     });
   }
